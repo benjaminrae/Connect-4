@@ -124,3 +124,11 @@ footer {
     justify-content: center;
     align-items: center;
 }
+
+.player1-selected {
+    background-color: red;
+}
+
+.player2-selected {
+    background-color: yellow;
+}
