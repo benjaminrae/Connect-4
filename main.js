@@ -2,6 +2,7 @@
 
 let isPlayer1Turn = true;
 let isPlayer2Turn = false;
+let isVersusCPU = true;
 
 // DOM Elements
 
@@ -20,7 +21,11 @@ const currentPlayerEl = document.getElementsByClassName(
 
 const surrenderAndRestart = () => {
     for (let counter of counters) {
-        counter.classList.remove("player1-selected");
+        counter.classList.remove(
+            "player1-selected",
+            "player2-selected",
+            "selected"
+        );
     }
 };
 
@@ -28,26 +33,30 @@ const togglePlayer = () => {
     if (isPlayer1Turn) {
         isPlayer1Turn = false;
         isPlayer2Turn = true;
-        currentPlayerEl.innerHTML = "player 2";
+        isVersusCPU
+            ? (currentPlayerEl.innerHTML = "cpu")
+            : (currentPlayerEl.innerHTML = "player 1");
     } else if (isPlayer2Turn) {
         isPlayer1Turn = true;
         isPlayer2Turn = false;
-        currentPlayerEl.innerHTML = "player 1";
+        currentPlayerEl.innerHTML = "player 2";
     }
 };
 
 //Event Listeners
 for (let counter of counters) {
     counter.addEventListener("click", () => {
+        if (counter.classList.contains("selected")) {
+            alert("That space is already filled");
+            return;
+        }
         if (isPlayer1Turn) {
-            counter.classList.add("player1-selected");
+            counter.classList.add("player1-selected", "selected");
             togglePlayer();
         } else if (isPlayer2Turn) {
-            counter.classList.add("player2-selected");
+            counter.classList.add("player2-selected", "selected");
             togglePlayer();
         }
-
-        console.log("clicked");
     });
 }
 
