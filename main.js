@@ -3,6 +3,7 @@
 let isPlayer1Turn = true;
 let isPlayer2Turn = false;
 let isVersusCPU = true;
+const columnRegExp = /column\d/;
 
 // DOM Elements
 
@@ -43,9 +44,16 @@ const togglePlayer = () => {
     }
 };
 
+const fillFromBottom = (counter) => {
+    const columnToFill = counter.classList.value.match(columnRegExp)[0];
+    console.log(columnToFill);
+};
+
 //Event Listeners
 for (let counter of counters) {
     counter.addEventListener("click", () => {
+        fillFromBottom(counter);
+
         if (counter.classList.contains("selected")) {
             alert("That space is already filled");
             return;
