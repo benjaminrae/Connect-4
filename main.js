@@ -7,6 +7,8 @@ let player2Name = "Player 2";
 let isVersusCPU = true;
 const columnRegExp = /column(\d)/;
 const rowRegExp = /row(\d)/;
+const numberOfRows = 6;
+const numberOfColumns = 7;
 // [0] is full match
 // [1] is just number
 
@@ -121,7 +123,7 @@ const fillCounter = (counter) => {
     } else if (isPlayer2Turn) {
         counter.classList.add("player2-selected", "selected");
     }
-    check45DegreeWin(counter);
+    check135DegreeWin(counter);
     checkVerticalWin(counter);
     checkHorizontalWin(counter);
 
@@ -177,24 +179,30 @@ const checkHorizontalWin = (counter) => {
 };
 
 const check45DegreeWin = (counter) => {
-    const countersInDiagonal = [];
     const playerSelectedCounters = isPlayer1Turn
         ? player1SelectedCounters
         : player2SelectedCounters;
     const counterRow = rowRegExp.exec(counter.classList.value)[1];
     const counterColumn = columnRegExp.exec(counter.classList.value)[1];
-    const rowDifference = Math.abs(6 - +counterRow);
-    const columnDifference = Math.abs(7 - +counterColumn);
+    const rowDifference = Math.abs(numberOfRows - +counterRow);
+    const columnDifference = Math.abs(1 - +counterColumn);
+
     const startRow =
-        counterColumn > 1 ? +counterRow + rowDifference : 6 - rowDifference;
-    const startColumn = counterColumn > 1 ? +counterColumn - rowDifference : 1;
-    console.log("start", startRow, startColumn);
-    // if (startRow <= 3 && startColumn <= 3) {
-    //     return false;
-    // } else if (startRow >= 4 && startColumn >= 5) {
-    //     return false;
-    // }
-    console.log(playerSelectedCounters);
+        rowDifference > columnDifference
+            ? +counterRow + columnDifference
+            : +counterRow + rowDifference;
+    const startColumn =
+        rowDifference > columnDifference
+            ? +counterColumn - columnDifference
+            : counterColumn - rowDifference;
+    // const startRow =
+    //     counterColumn > 1 ? +counterRow + rowDifference : 6 - rowDifference;
+    // const startColumn = counterColumn > 1 ? counterColumn - rowDifference : 1;
+    if (startRow <= 3 && startColumn <= 3) {
+        return;
+    } else if (startRow >= 4 && startColumn >= 5) {
+        return;
+    }
     let count = 0;
 
     for (let i = 0; i < startRow; i++) {
@@ -206,7 +214,6 @@ const check45DegreeWin = (counter) => {
                 playerCounter.classList.contains(`column${startColumn + i}`)
             ) {
                 count++;
-                console.log("count", count);
                 if (count === 4) {
                     alert(`${isPlayer1Turn ? player1Name : player2Name} wins!`);
                     return true;
@@ -216,7 +223,49 @@ const check45DegreeWin = (counter) => {
     }
 };
 
-const check135DegreeWin = () => {};
+const check135DegreeWin = (counter) => {
+    const playerSelectedCounters = isPlayer1Turn
+        ? player1SelectedCounters
+        : player2SelectedCounters;
+    const counterRow = rowRegExp.exec(counter.classList.value)[1];
+    const counterColumn = columnRegExp.exec(counter.classList.value)[1];
+    const rowDifference = Math.abs(numberOfRows - +counterRow);
+    const columnDifference = Math.abs(numberOfColumns - +counterColumn);
+
+    const startRow =
+        rowDifference > columnDifference
+            ? +counterRow + columnDifference
+            : +counterRow + rowDifference;
+    const startColumn =
+        rowDifference > columnDifference
+            ? +counterColumn + columnDifference
+            : +counterColumn + rowDifference;
+    if (startRow >= 4 && startColumn <= 3) {
+        return;
+    } else if (startRow <= 3 && startColumn >= 5) {
+        return;
+    }
+    console.log(playerSelectedCounters);
+    let count = 0;
+
+    for (let i = 0; i < startRow; i++) {
+        console.log("here");
+
+        for (let playerCounter of playerSelectedCounters) {
+            if (
+                playerCounter.classList.contains(`row${startRow - i}`) &&
+                playerCounter.classList.contains(`column${startColumn - i}`)
+            ) {
+                count++;
+                console.log("count", count);
+                if (count === 4) {
+                    alert(`${isPlayer1Turn ? player1Name : player2Name} wins!`);
+                    return true;
+                }
+            }
+        }
+    }
+};
 
 const countConsecutiveNumbers = (array) => {
     let count = 1;
