@@ -121,8 +121,10 @@ const fillCounter = (counter) => {
     } else if (isPlayer2Turn) {
         counter.classList.add("player2-selected", "selected");
     }
+    check45DegreeWin(counter);
     checkVerticalWin(counter);
     checkHorizontalWin(counter);
+
     togglePlayer();
 };
 
@@ -174,22 +176,62 @@ const checkHorizontalWin = (counter) => {
     }
 };
 
-const check45DegreeWin = () => {};
-const check135DegreeWin = () => {};
+const check45DegreeWin = (counter) => {
+    const countersInDiagonal = [];
+    const playerSelectedCounters = isPlayer1Turn
+        ? player1SelectedCounters
+        : player2SelectedCounters;
+    const counterRow = rowRegExp.exec(counter.classList.value)[1];
+    const counterColumn = columnRegExp.exec(counter.classList.value)[1];
+    const rowDifference = Math.abs(6 - +counterRow);
+    const columnDifference = Math.abs(7 - +counterColumn);
+    const startRow =
+        counterColumn > 1 ? +counterRow + rowDifference : 6 - rowDifference;
+    const startColumn = counterColumn > 1 ? +counterColumn - rowDifference : 1;
+    console.log("start", startRow, startColumn);
+    // if (startRow <= 3 && startColumn <= 3) {
+    //     return false;
+    // } else if (startRow >= 4 && startColumn >= 5) {
+    //     return false;
+    // }
+    console.log(playerSelectedCounters);
+    let count = 0;
 
-const countConsecutiveNumbers = (array) => {
-    let counter = 1;
-    for (let i = 0; i < array.length; i++) {
-        if (Math.abs(array[i] - array[i + 1]) === 1) {
-            counter++;
-            if (counter === 4) {
-                return true;
+    for (let i = 0; i < startRow; i++) {
+        console.log("here");
+
+        for (let playerCounter of playerSelectedCounters) {
+            if (
+                playerCounter.classList.contains(`row${startRow - i}`) &&
+                playerCounter.classList.contains(`column${startColumn + i}`)
+            ) {
+                count++;
+                console.log("count", count);
+                if (count === 4) {
+                    alert(`${isPlayer1Turn ? player1Name : player2Name} wins!`);
+                    return true;
+                }
             }
-        } else {
-            counter = 1;
         }
     }
 };
+
+const check135DegreeWin = () => {};
+
+const countConsecutiveNumbers = (array) => {
+    let count = 1;
+    for (let i = 0; i < array.length; i++) {
+        if (Math.abs(array[i] - array[i + 1]) === 1) {
+            count++;
+            if (count === 4) {
+                return true;
+            }
+        } else {
+            count = 1;
+        }
+    }
+};
+
 //Event Listeners
 for (let counter of counters) {
     counter.addEventListener("click", () => {

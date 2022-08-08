@@ -66,12 +66,16 @@ main {
 }
 
 .counter {
-    width: 5rem;
-    height: 5rem;
+    width: 8vmin;
+    height: 8vmin;
 
     border-radius: 50%;
     background-color: white;
     box-shadow: inset -1px -2px 2px 2px black;
+}
+
+.counter:hover {
+    cursor: pointer;
 }
 
 .controls-container {
@@ -112,6 +116,10 @@ main {
     width: 10rem;
     border-radius: 2rem;
     filter: drop-shadow(16px 16px 10px black);
+}
+
+.controls__surrender:hover {
+    cursor: pointer;
 }
 
 footer {
