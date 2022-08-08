@@ -9,8 +9,6 @@ const columnRegExp = /column(\d)/;
 const rowRegExp = /row(\d)/;
 const numberOfRows = 6;
 const numberOfColumns = 7;
-// [0] is full match
-// [1] is just number
 
 // DOM Elements
 
@@ -31,6 +29,8 @@ const currentPlayerEl = document.getElementsByClassName(
     "controls__current-player"
 )[0];
 
+// Functions
+
 const surrenderAndRestart = () => {
     for (let counter of counters) {
         counter.classList.remove(
@@ -48,6 +48,12 @@ const togglePlayer = () => {
         isVersusCPU
             ? (currentPlayerEl.innerHTML = "cpu")
             : (currentPlayerEl.innerHTML = "player 2");
+        if (isVersusCPU && isPlayer2Turn) {
+            const randomCounterToPlay = randomCounter();
+            setTimeout(() => {
+                computerTurn(randomCounterToPlay);
+            }, 1500);
+        }
     } else if (isPlayer2Turn) {
         isPlayer1Turn = true;
         isPlayer2Turn = false;
@@ -163,6 +169,20 @@ const checkHorizontalWin = (counter, playerSelectedCounters) => {
     }
 };
 
+const countConsecutiveNumbers = (array) => {
+    let count = 1;
+    for (let i = 0; i < array.length; i++) {
+        if (Math.abs(array[i] - array[i + 1]) === 1) {
+            count++;
+            if (count === 4) {
+                return true;
+            }
+        } else {
+            count = 1;
+        }
+    }
+};
+
 const check45DegreeWin = (counter, playerSelectedCounters) => {
     const counterRow = rowRegExp.exec(counter.classList.value)[1];
     const counterColumn = columnRegExp.exec(counter.classList.value)[1];
@@ -182,7 +202,6 @@ const check45DegreeWin = (counter, playerSelectedCounters) => {
         return;
     }
     let count = 0;
-
     for (let i = 0; i < startRow; i++) {
         for (let playerCounter of playerSelectedCounters) {
             if (
@@ -234,20 +253,6 @@ const check135DegreeWin = (counter, playerSelectedCounters) => {
     }
 };
 
-const countConsecutiveNumbers = (array) => {
-    let count = 1;
-    for (let i = 0; i < array.length; i++) {
-        if (Math.abs(array[i] - array[i + 1]) === 1) {
-            count++;
-            if (count === 4) {
-                return true;
-            }
-        } else {
-            count = 1;
-        }
-    }
-};
-
 const checkWinConditions = (counter) => {
     const playerSelectedCounters = isPlayer1Turn
         ? player1SelectedCounters
@@ -258,9 +263,20 @@ const checkWinConditions = (counter) => {
     check135DegreeWin(counter, playerSelectedCounters);
 };
 
+const randomCounter = () => {
+    return counters[Math.floor(Math.random() * counters.length)];
+};
+const computerTurn = () => {
+    fillFromBottom(randomCounter());
+};
+
 //Event Listeners
+
 for (let counter of counters) {
     counter.addEventListener("click", () => {
+        if (isVersusCPU && isPlayer2Turn) {
+            return;
+        }
         fillFromBottom(counter);
     });
 }
