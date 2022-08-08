@@ -123,70 +123,51 @@ const fillCounter = (counter) => {
     } else if (isPlayer2Turn) {
         counter.classList.add("player2-selected", "selected");
     }
-    check135DegreeWin(counter);
-    checkVerticalWin(counter);
-    checkHorizontalWin(counter);
-
+    checkWinConditions(counter);
     togglePlayer();
 };
 
-const checkVerticalWin = (counter) => {
+const checkVerticalWin = (counter, playerSelectedCounters) => {
     const columnToCheck = columnRegExp.exec(counter.classList.value)[0];
-    const playerSelectedCounters = isPlayer1Turn
-        ? player1SelectedCounters
-        : player2SelectedCounters;
-
     const countersInColumn = [];
     for (let playerCounter of playerSelectedCounters) {
         if (playerCounter.classList.contains(columnToCheck))
             countersInColumn.push(playerCounter);
     }
     if (countersInColumn.length >= 4) {
-        console.log(countersInColumn);
         const rows = [];
         countersInColumn.forEach((counterInColumn) => {
             rows.push(+rowRegExp.exec(counterInColumn.classList.value)[1]);
         });
-        console.log(rows);
         if (countConsecutiveNumbers(rows)) {
             alert(`${isPlayer1Turn ? player1Name : player2Name} wins!`);
         }
     }
 };
 
-const checkHorizontalWin = (counter) => {
+const checkHorizontalWin = (counter, playerSelectedCounters) => {
     const rowToCheck = rowRegExp.exec(counter.classList.value)[0];
-    const playerSelectedCounters = isPlayer1Turn
-        ? player1SelectedCounters
-        : player2SelectedCounters;
-
     const countersInRow = [];
     for (let playerCounter of playerSelectedCounters) {
         if (playerCounter.classList.contains(rowToCheck))
             countersInRow.push(playerCounter);
     }
     if (countersInRow.length >= 4) {
-        console.log(countersInRow);
         const columns = [];
         countersInRow.forEach((counterInRow) => {
             columns.push(+columnRegExp.exec(counterInRow.classList.value)[1]);
         });
-        console.log(columns);
         if (countConsecutiveNumbers(columns)) {
             alert(`${isPlayer1Turn ? player1Name : player2Name} wins!`);
         }
     }
 };
 
-const check45DegreeWin = (counter) => {
-    const playerSelectedCounters = isPlayer1Turn
-        ? player1SelectedCounters
-        : player2SelectedCounters;
+const check45DegreeWin = (counter, playerSelectedCounters) => {
     const counterRow = rowRegExp.exec(counter.classList.value)[1];
     const counterColumn = columnRegExp.exec(counter.classList.value)[1];
     const rowDifference = Math.abs(numberOfRows - +counterRow);
     const columnDifference = Math.abs(1 - +counterColumn);
-
     const startRow =
         rowDifference > columnDifference
             ? +counterRow + columnDifference
@@ -195,9 +176,6 @@ const check45DegreeWin = (counter) => {
         rowDifference > columnDifference
             ? +counterColumn - columnDifference
             : counterColumn - rowDifference;
-    // const startRow =
-    //     counterColumn > 1 ? +counterRow + rowDifference : 6 - rowDifference;
-    // const startColumn = counterColumn > 1 ? counterColumn - rowDifference : 1;
     if (startRow <= 3 && startColumn <= 3) {
         return;
     } else if (startRow >= 4 && startColumn >= 5) {
@@ -206,8 +184,6 @@ const check45DegreeWin = (counter) => {
     let count = 0;
 
     for (let i = 0; i < startRow; i++) {
-        console.log("here");
-
         for (let playerCounter of playerSelectedCounters) {
             if (
                 playerCounter.classList.contains(`row${startRow - i}`) &&
@@ -223,15 +199,11 @@ const check45DegreeWin = (counter) => {
     }
 };
 
-const check135DegreeWin = (counter) => {
-    const playerSelectedCounters = isPlayer1Turn
-        ? player1SelectedCounters
-        : player2SelectedCounters;
+const check135DegreeWin = (counter, playerSelectedCounters) => {
     const counterRow = rowRegExp.exec(counter.classList.value)[1];
     const counterColumn = columnRegExp.exec(counter.classList.value)[1];
     const rowDifference = Math.abs(numberOfRows - +counterRow);
     const columnDifference = Math.abs(numberOfColumns - +counterColumn);
-
     const startRow =
         rowDifference > columnDifference
             ? +counterRow + columnDifference
@@ -245,19 +217,14 @@ const check135DegreeWin = (counter) => {
     } else if (startRow <= 3 && startColumn >= 5) {
         return;
     }
-    console.log(playerSelectedCounters);
     let count = 0;
-
     for (let i = 0; i < startRow; i++) {
-        console.log("here");
-
         for (let playerCounter of playerSelectedCounters) {
             if (
                 playerCounter.classList.contains(`row${startRow - i}`) &&
                 playerCounter.classList.contains(`column${startColumn - i}`)
             ) {
                 count++;
-                console.log("count", count);
                 if (count === 4) {
                     alert(`${isPlayer1Turn ? player1Name : player2Name} wins!`);
                     return true;
@@ -279,6 +246,16 @@ const countConsecutiveNumbers = (array) => {
             count = 1;
         }
     }
+};
+
+const checkWinConditions = (counter) => {
+    const playerSelectedCounters = isPlayer1Turn
+        ? player1SelectedCounters
+        : player2SelectedCounters;
+    checkHorizontalWin(counter, playerSelectedCounters);
+    checkVerticalWin(counter, playerSelectedCounters);
+    check45DegreeWin(counter, playerSelectedCounters);
+    check135DegreeWin(counter, playerSelectedCounters);
 };
 
 //Event Listeners
