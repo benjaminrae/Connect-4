@@ -20,29 +20,61 @@
                 </ul>
             </nav>
         </header>
-        <section class="start-screen">
+        <section class="start-screen" id="start-screen">
             <div class="start-screen__container">
-                <form class="start-screen__form">
-                    <label for="player-1-name" class="start-screen__label"
-                        >Player 1 name:</label
+                <form class="start-screen__form" id="start-screen__form">
+                    <div class="start-screen__player-selection">
+                        <div class="start-screen__form-radio">
+                            <input
+                                type="radio"
+                                name="players"
+                                id="start-screen__single-player"
+                                checked
+                            />
+                            <label for="start-screen__single-player"
+                                >Single Player</label
+                            >
+                        </div>
+                        <div class="start-screen__form-radio">
+                            <input
+                                type="radio"
+                                name="players"
+                                id="start-screen__multiplayer"
+                            />
+                            <label for="start-screen__multiplayer"
+                                >Local Multiplayer</label
+                            >
+                        </div>
+                    </div>
+                    <div class="start-screen__form-text">
+                        <label for="player-1-name" class="start-screen__label"
+                            >Player 1 name:</label
+                        >
+                        <input
+                            type="text"
+                            name="player-1-name"
+                            id="start-screen__player-1-name"
+                            class="start-screen__text-input"
+                            placeholder="Player 1"
+                            required
+                        />
+                    </div>
+                    <div
+                        class="start-screen__form-text hidden"
+                        id="start-screen__player-2-name-container"
                     >
-                    <input
-                        type="text"
-                        name="player-1-name"
-                        id="start-screen__player-1-name"
-                        class="start-screen__text-input"
-                        placeholder="Player 1"
-                    />
-                    <label for="player-2-name" class="start-screen__label"
-                        >Player 2 name:</label
-                    >
-                    <input
-                        type="text"
-                        name="player-2-name"
-                        id="start-screen__player-2-name"
-                        class="start-screen__text-input"
-                        placeholder="Player 2"
-                    />
+                        <label for="player-2-name" class="start-screen__label"
+                            >Player 2 name:</label
+                        >
+                        <input
+                            type="text"
+                            name="player-2-name"
+                            id="start-screen__player-2-name"
+                            class="start-screen__text-input"
+                            placeholder="Player 2"
+                        />
+                    </div>
+
                     <label for="time-limit" class="start-screen__label"
                         >Time limit:
                         <span id="display-time-limit">150s</span></label
@@ -57,7 +89,7 @@
                         step="15"
                         value="150"
                     />
-                    <input type="button" value="submit" />
+                    <input type="submit" value="Start Game" />
                 </form>
             </div>
         </section>
@@ -199,7 +231,11 @@
                     <div class="controls__surrender controls__card">
                         surrender
                     </div>
-                    <div class="controls__timer controls__card">time:</div>
+                    <div class="controls__timer controls__card">
+                        time left:
+                        <br />
+                        <span id="controls__time-left">150</span>s
+                    </div>
                     <div class="controls__current-player controls__card">
                         player 1
                     </div>

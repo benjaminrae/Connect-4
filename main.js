@@ -3,8 +3,9 @@
 let isPlayer1Turn = true;
 let isPlayer2Turn = false;
 let player1Name = "Player 1";
-let player2Name = "Player 2";
+let player2Name = "CPU";
 let isVersusCPU = true;
+let timeInSeconds = 150;
 const columnRegExp = /column(\d)/;
 const rowRegExp = /row(\d)/;
 const numberOfRows = 6;
@@ -30,6 +31,17 @@ const currentPlayerEl = document.getElementsByClassName(
 )[0];
 const timeLimitRange = document.getElementById("start-screen__time-limit");
 const timeLimitDisplay = document.getElementById("display-time-limit");
+const startScreenForm = document.getElementById("start-screen__form");
+const timeLeft = document.getElementById("controls__time-left");
+const singlePlayerInput = document.getElementById(
+    "start-screen__single-player"
+);
+const multiplayerInput = document.getElementById("start-screen__multiplayer");
+const player2NameContainer = document.getElementById(
+    "start-screen__player-2-name-container"
+);
+const startScreen = document.getElementById("start-screen");
+
 // Functions
 
 const surrenderAndRestart = () => {
@@ -46,9 +58,8 @@ const togglePlayer = () => {
     if (isPlayer1Turn) {
         isPlayer1Turn = false;
         isPlayer2Turn = true;
-        isVersusCPU
-            ? (currentPlayerEl.innerHTML = "cpu")
-            : (currentPlayerEl.innerHTML = "player 2");
+        currentPlayerEl.innerHTML = player2Name;
+
         if (isVersusCPU && isPlayer2Turn) {
             const randomCounterToPlay = randomCounter();
             setTimeout(() => {
@@ -58,7 +69,7 @@ const togglePlayer = () => {
     } else if (isPlayer2Turn) {
         isPlayer1Turn = true;
         isPlayer2Turn = false;
-        currentPlayerEl.innerHTML = "player 1";
+        currentPlayerEl.innerHTML = player1Name;
     }
 };
 
@@ -147,7 +158,11 @@ const checkVerticalWin = (counter, playerSelectedCounters) => {
             rows.push(+rowRegExp.exec(counterInColumn.classList.value)[1]);
         });
         if (countConsecutiveNumbers(rows)) {
-            alert(`${isPlayer1Turn ? player1Name : player2Name} wins!`);
+            alert(
+                `${
+                    isPlayer1Turn ? player1Name : player2Name
+                } wins! Vertical win`
+            );
         }
     }
 };
@@ -165,7 +180,11 @@ const checkHorizontalWin = (counter, playerSelectedCounters) => {
             columns.push(+columnRegExp.exec(counterInRow.classList.value)[1]);
         });
         if (countConsecutiveNumbers(columns)) {
-            alert(`${isPlayer1Turn ? player1Name : player2Name} wins!`);
+            alert(
+                `${
+                    isPlayer1Turn ? player1Name : player2Name
+                } wins! Horizontal win`
+            );
         }
     }
 };
@@ -211,7 +230,11 @@ const check45DegreeWin = (counter, playerSelectedCounters) => {
             ) {
                 count++;
                 if (count === 4) {
-                    alert(`${isPlayer1Turn ? player1Name : player2Name} wins!`);
+                    alert(
+                        `${
+                            isPlayer1Turn ? player1Name : player2Name
+                        } wins! 45 degree win`
+                    );
                     return true;
                 }
             }
@@ -246,7 +269,11 @@ const check135DegreeWin = (counter, playerSelectedCounters) => {
             ) {
                 count++;
                 if (count === 4) {
-                    alert(`${isPlayer1Turn ? player1Name : player2Name} wins!`);
+                    alert(
+                        `${
+                            isPlayer1Turn ? player1Name : player2Name
+                        } wins! 135 degree win`
+                    );
                     return true;
                 }
             }
@@ -267,8 +294,31 @@ const checkWinConditions = (counter) => {
 const randomCounter = () => {
     return counters[Math.floor(Math.random() * counters.length)];
 };
+
 const computerTurn = () => {
     fillFromBottom(randomCounter());
+};
+
+const collectFormData = (event) => {
+    if (event.target[0].checked) {
+        isVersusCPU = true;
+    } else if (event.target[1].checked) {
+        isVersusCPU = false;
+    }
+    player1Name = event.target[2].value;
+    if (isVersusCPU) {
+        player2Name = "CPU";
+    } else {
+        player2Name = event.target[3].value
+            ? event.target[3].value
+            : "Player 2";
+    }
+    timeInSeconds = +event.target[4].value;
+};
+
+const updateNamesAndTimer = () => {
+    timeLimitDisplay.innerHTML = timeInSeconds;
+    currentPlayerEl.innerHTML = player1Name;
 };
 
 //Event Listeners
@@ -291,4 +341,20 @@ surrenderEl.addEventListener("click", () => {
 
 timeLimitRange.addEventListener("input", (event) => {
     timeLimitDisplay.innerHTML = `${event.target.value}s`;
+});
+
+startScreenForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    console.log(event);
+    collectFormData(event);
+    updateNamesAndTimer();
+    startScreen.classList.add("hidden");
+});
+
+multiplayerInput.addEventListener("input", () => {
+    player2NameContainer.classList.remove("hidden");
+});
+
+singlePlayerInput.addEventListener("input", () => {
+    player2NameContainer.classList.add("hidden");
 });
