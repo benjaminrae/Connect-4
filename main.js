@@ -28,7 +28,8 @@ const surrenderEl = document.getElementsByClassName("controls__surrender")[0];
 const currentPlayerEl = document.getElementsByClassName(
     "controls__current-player"
 )[0];
-
+const timeLimitRange = document.getElementById("start-screen__time-limit");
+const timeLimitDisplay = document.getElementById("display-time-limit");
 // Functions
 
 const surrenderAndRestart = () => {
@@ -286,4 +287,8 @@ surrenderEl.addEventListener("click", () => {
     if (isPlayer2Turn) {
         togglePlayer();
     }
+});
+
+timeLimitRange.addEventListener("input", (event) => {
+    timeLimitDisplay.innerHTML = `${event.target.value}s`;
 });
