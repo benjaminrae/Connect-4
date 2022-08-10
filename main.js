@@ -30,9 +30,10 @@ const currentPlayerEl = document.getElementsByClassName(
     "controls__current-player"
 )[0];
 const timeLimitRange = document.getElementById("start-screen__time-limit");
-const timeLimitDisplay = document.getElementById("display-time-limit");
+const startScreenTimeLimitDisplay =
+    document.getElementById("display-time-limit");
 const startScreenForm = document.getElementById("start-screen__form");
-const timeLeft = document.getElementById("controls__time-left");
+const controlsTimeLeft = document.getElementById("controls__time-left");
 const singlePlayerInput = document.getElementById(
     "start-screen__single-player"
 );
@@ -313,11 +314,11 @@ const collectFormData = (event) => {
             ? event.target[3].value
             : "Player 2";
     }
-    timeInSeconds = +event.target[4].value;
+    timeInSeconds = event.target[4].value;
 };
 
 const updateNamesAndTimer = () => {
-    timeLimitDisplay.innerHTML = timeInSeconds;
+    controlsTimeLeft.innerHTML = timeInSeconds;
     currentPlayerEl.innerHTML = player1Name;
 };
 
@@ -337,10 +338,11 @@ surrenderEl.addEventListener("click", () => {
     if (isPlayer2Turn) {
         togglePlayer();
     }
+    startScreen.classList.remove("hidden");
 });
 
 timeLimitRange.addEventListener("input", (event) => {
-    timeLimitDisplay.innerHTML = `${event.target.value}s`;
+    startScreenTimeLimitDisplay.innerHTML = `${event.target.value}s`;
 });
 
 startScreenForm.addEventListener("submit", (event) => {

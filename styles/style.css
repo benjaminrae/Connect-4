@@ -11,6 +11,7 @@
     --green: #8ac926;
     --blue: #1982c4;
     --purple: #6a4c93;
+    font-family: "Rubik Dirt", cursive;
 }
 body {
     height: 100vh;
@@ -37,6 +38,10 @@ header {
     font-weight: 700;
 }
 
+.nav__logo {
+    max-height: 3rem;
+}
+
 .nav__ul {
     list-style: none;
     display: flex;
@@ -45,6 +50,7 @@ header {
 
 .nav__li {
     font-size: 1.5rem;
+    color: white;
 }
 
 main {
@@ -187,6 +193,7 @@ footer {
     justify-content: center;
     align-items: center;
     z-index: 30;
+    color: white;
 }
 
 .player1-selected {
