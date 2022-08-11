@@ -46,8 +46,8 @@
                 </ul>
             </nav>
         </header>
-        <section class="start-screen" id="start-screen">
-            <div class="start-screen__container">
+        <section class="start-screen overlay" id="start-screen">
+            <div class="start-screen__container overlay__container">
                 <form class="start-screen__form" id="start-screen__form">
                     <div class="start-screen__player-selection">
                         <div class="start-screen__form-radio">
@@ -101,7 +101,9 @@
                         />
                     </div>
 
-                    <label for="time-limit" class="start-screen__label"
+                    <label
+                        for="start-screen__time-limit"
+                        class="start-screen__label"
                         >Time limit:
                         <span id="display-time-limit">150s</span></label
                     >
@@ -119,6 +121,26 @@
                 </form>
             </div>
         </section>
+        <section class="pause-screen overlay hidden" id="pause-screen">
+            <div class="pause-screen__container overlay__container">
+                <div id="pause-icon">🛑</div>
+                <div class="pause-screen__information">Game is paused</div>
+                <button class="pause-screen__resume-button" id="resume-button">
+                    Resume
+                </button>
+            </div>
+        </section>
+        <section class="end-screen overlay hidden" id="end-screen">
+            <div class="end-screen__container overlay__container">
+                <div id="end-screen-icon">🥇</div>
+                <div class="end-screen__winner" id="winner"></div>
+                <button class="end-screen__play-again-button" id="play-again">
+                    Play Again
+                </button>
+            </div>
+        </section>
+        <section class="help-screen overlay hidden"></section>
+        <section class="high-score-screen hidden overlay__container"></section>
         <main>
             <div class="game-container">
                 <div class="game">
@@ -255,15 +277,22 @@
             <div class="controls-container">
                 <div class="controls">
                     <div class="controls__surrender controls__card">
-                        surrender
+                        <div id="surrender-button">🔄</div>
+                        <div>surrender</div>
                     </div>
                     <div class="controls__timer controls__card">
-                        time left:
-                        <br />
-                        <span id="controls__time-left">150</span>s
+                        <div id="pause-button">⏸</div>
+                        <div>
+                            ⌛
+                            <span id="controls__time-left">150</span>s
+                        </div>
                     </div>
                     <div class="controls__current-player controls__card">
-                        player 1
+                        <div
+                            id="current-player-color"
+                            class="example-counter player1-example"
+                        ></div>
+                        <div id="current-player-name">player 1</div>
                     </div>
                 </div>
             </div>

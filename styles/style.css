@@ -59,7 +59,7 @@ main {
     flex-direction: row;
 }
 
-.start-screen {
+/* .start-screen {
     position: fixed;
     height: 90%;
     width: 100vw;
@@ -80,7 +80,7 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
+} */
 
 .start-screen__form {
     display: flex;
@@ -112,7 +112,6 @@ main {
 }
 
 .game__grid {
-    /* max-width: 45rem; */
     width: 100%;
     height: 100%;
     background-color: var(--blue);
@@ -135,6 +134,13 @@ main {
     box-shadow: inset -1px -2px 2px 2px black;
 }
 
+.example-counter {
+    width: 8vmin;
+    height: 8vmin;
+    border-radius: 50%;
+    background-color: white;
+    box-shadow: inset -1px -2px 2px 2px black;
+}
 .counter:hover {
     cursor: pointer;
 }
@@ -155,18 +161,14 @@ main {
     align-items: center;
     justify-content: space-evenly;
 }
-/* 
 
-.controls__surrender {
-    background-color: white;
+#surrender-button {
+    font-size: 3rem;
 }
 
-.controls__timer {
-    background-color: white;
+#pause-button {
+    font-size: 3rem;
 }
-.controls__current-player {
-    background-color: white;
-} */
 
 .controls__card {
     background-color: white;
@@ -177,9 +179,12 @@ main {
     width: 10rem;
     border-radius: 2rem;
     filter: drop-shadow(16px 16px 10px black);
+    flex-direction: column;
+    gap: 1rem;
 }
 
-.controls__surrender:hover {
+.controls__surrender:hover,
+.controls__timer:hover {
     cursor: pointer;
 }
 
@@ -204,10 +209,51 @@ footer {
     background-color: var(--yellow);
 }
 
-.hidden {
-    display: none;
+.player1-example {
+    background-color: var(--red);
+}
+
+.player2-example {
+    background-color: var(--yellow);
 }
 
 datalist {
     display: block;
+}
+
+.matched {
+    background-color: var(--green);
+}
+
+.overlay {
+    position: fixed;
+    height: 90%;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 25;
+}
+
+.overlay__container {
+    height: 50%;
+    width: 50%;
+    background-color: white;
+    border-radius: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+#pause-icon,
+#end-screen-icon {
+    font-size: 5rem;
+}
+
+.hidden {
+    display: none;
 }

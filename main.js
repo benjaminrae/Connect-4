@@ -10,6 +10,11 @@ const columnRegExp = /column(\d)/;
 const rowRegExp = /row(\d)/;
 const numberOfRows = 6;
 const numberOfColumns = 7;
+let timer;
+let endTime;
+let intervalTimer;
+let isPlaying = false;
+let isPaused = false;
 
 // DOM Elements
 
@@ -26,9 +31,9 @@ const player1SelectedCounters =
 const player2SelectedCounters =
     document.getElementsByClassName("player2-selected");
 const surrenderEl = document.getElementsByClassName("controls__surrender")[0];
-const currentPlayerEl = document.getElementsByClassName(
-    "controls__current-player"
-)[0];
+const timerEl = document.getElementsByClassName("controls__timer")[0];
+const currentPlayerNameEl = document.getElementById("current-player-name");
+const currentPlayerColorEl = document.getElementById("current-player-color");
 const timeLimitRange = document.getElementById("start-screen__time-limit");
 const startScreenTimeLimitDisplay =
     document.getElementById("display-time-limit");
@@ -42,6 +47,12 @@ const player2NameContainer = document.getElementById(
     "start-screen__player-2-name-container"
 );
 const startScreen = document.getElementById("start-screen");
+const endScreen = document.getElementById("end-screen");
+const winner = document.getElementById("winner");
+const playAgainButton = document.getElementById("play-again");
+const pauseScreen = document.getElementById("pause-screen");
+const resumeButton = document.getElementById("resume-button");
+const endScreenIcon = document.getElementById("end-screen-icon");
 
 // Functions
 
@@ -59,7 +70,9 @@ const togglePlayer = () => {
     if (isPlayer1Turn) {
         isPlayer1Turn = false;
         isPlayer2Turn = true;
-        currentPlayerEl.innerHTML = player2Name;
+        currentPlayerNameEl.innerHTML = player2Name;
+        currentPlayerColorEl.classList.remove("player1-example");
+        currentPlayerColorEl.classList.add("player2-example");
 
         if (isVersusCPU && isPlayer2Turn) {
             const randomCounterToPlay = randomCounter();
@@ -70,7 +83,9 @@ const togglePlayer = () => {
     } else if (isPlayer2Turn) {
         isPlayer1Turn = true;
         isPlayer2Turn = false;
-        currentPlayerEl.innerHTML = player1Name;
+        currentPlayerNameEl.innerHTML = player1Name;
+        currentPlayerColorEl.classList.remove("player2-example");
+        currentPlayerColorEl.classList.add("player1-example");
     }
 };
 
@@ -143,7 +158,7 @@ const fillCounter = (counter) => {
         counter.classList.add("player2-selected", "selected");
     }
     checkWinConditions(counter);
-    togglePlayer();
+    if (isPlaying) togglePlayer();
 };
 
 const checkVerticalWin = (counter, playerSelectedCounters) => {
@@ -159,11 +174,12 @@ const checkVerticalWin = (counter, playerSelectedCounters) => {
             rows.push(+rowRegExp.exec(counterInColumn.classList.value)[1]);
         });
         if (countConsecutiveNumbers(rows)) {
-            alert(
-                `${
-                    isPlayer1Turn ? player1Name : player2Name
-                } wins! Vertical win`
-            );
+            // alert(
+            //     `${
+            //         isPlayer1Turn ? player1Name : player2Name
+            //     } wins! Vertical win`
+            // );
+            return showWinner();
         }
     }
 };
@@ -181,11 +197,12 @@ const checkHorizontalWin = (counter, playerSelectedCounters) => {
             columns.push(+columnRegExp.exec(counterInRow.classList.value)[1]);
         });
         if (countConsecutiveNumbers(columns)) {
-            alert(
-                `${
-                    isPlayer1Turn ? player1Name : player2Name
-                } wins! Horizontal win`
-            );
+            // alert(
+            //     `${
+            //         isPlayer1Turn ? player1Name : player2Name
+            //     } wins! Horizontal win`
+            // );
+            return showWinner();
         }
     }
 };
@@ -223,6 +240,8 @@ const check45DegreeWin = (counter, playerSelectedCounters) => {
         return;
     }
     let count = 0;
+    let isMatched = false;
+    console.log(playerSelectedCounters);
     for (let i = 0; i < startRow; i++) {
         for (let playerCounter of playerSelectedCounters) {
             if (
@@ -230,20 +249,28 @@ const check45DegreeWin = (counter, playerSelectedCounters) => {
                 playerCounter.classList.contains(`column${startColumn + i}`)
             ) {
                 count++;
+                isMatched = true;
                 if (count === 4) {
-                    alert(
-                        `${
-                            isPlayer1Turn ? player1Name : player2Name
-                        } wins! 45 degree win`
-                    );
-                    return true;
+                    // alert(
+                    //     `${
+                    //         isPlayer1Turn ? player1Name : player2Name
+                    //     } wins! 45 degree win`
+                    // );
+                    return showWinner();
                 }
+            } else {
             }
         }
+        if (isMatched) {
+            isMatched = false;
+            continue;
+        }
+        count = 0;
     }
 };
 
 const check135DegreeWin = (counter, playerSelectedCounters) => {
+    const matchedArray = [];
     const counterRow = rowRegExp.exec(counter.classList.value)[1];
     const counterColumn = columnRegExp.exec(counter.classList.value)[1];
     const rowDifference = Math.abs(numberOfRows - +counterRow);
@@ -262,6 +289,7 @@ const check135DegreeWin = (counter, playerSelectedCounters) => {
         return;
     }
     let count = 0;
+    let isMatched = false;
     for (let i = 0; i < startRow; i++) {
         for (let playerCounter of playerSelectedCounters) {
             if (
@@ -269,16 +297,23 @@ const check135DegreeWin = (counter, playerSelectedCounters) => {
                 playerCounter.classList.contains(`column${startColumn - i}`)
             ) {
                 count++;
+                isMatched = true;
+                matchedArray.push(playerCounter);
                 if (count === 4) {
-                    alert(
-                        `${
-                            isPlayer1Turn ? player1Name : player2Name
-                        } wins! 135 degree win`
-                    );
-                    return true;
+                    // alert(
+                    //     `${
+                    //         isPlayer1Turn ? player1Name : player2Name
+                    //     } wins! 135 degree win`
+                    // );
+                    return showWinner();
                 }
             }
         }
+        if (isMatched) {
+            isMatched = false;
+            continue;
+        }
+        count = 0;
     }
 };
 
@@ -319,7 +354,46 @@ const collectFormData = (event) => {
 
 const updateNamesAndTimer = () => {
     controlsTimeLeft.innerHTML = timeInSeconds;
-    currentPlayerEl.innerHTML = player1Name;
+    currentPlayerNameEl.innerHTML = player1Name;
+};
+
+const showWinner = () => {
+    isPlaying = false;
+    if (timeInSeconds) {
+        winner.innerHTML = `${isPlayer1Turn ? player1Name : player2Name} wins!`;
+    } else {
+        endScreenIcon.innerHTML = "⏰";
+        winner.innerHTML = "Time's up! Nobody wins!";
+    }
+    endScreen.classList.remove("hidden");
+};
+
+const playAgain = () => {
+    endScreen.classList.add("hidden");
+    surrenderAndRestart();
+    if (isPlayer2Turn) togglePlayer();
+    startScreen.classList.remove("hidden");
+};
+
+const startTimer = () => {
+    const startTime = new Date().getTime();
+    endTime = startTime + timeInSeconds * 1000;
+    isPaused = false;
+    intervalTimer = setInterval(updateTimer, 1000, endTime);
+    updateTimer(endTime);
+};
+
+const updateTimer = (end) => {
+    const millisecondsLeft = endTime - Date.now();
+    timeInSeconds = Math.round(millisecondsLeft / 1000);
+    if (isPaused) clearInterval(intervalTimer);
+    if (millisecondsLeft >= 0 && isPlaying) {
+        controlsTimeLeft.innerHTML = timeInSeconds;
+    } else {
+        controlsTimeLeft.innerHTML = "0";
+        clearInterval(intervalTimer);
+        showWinner();
+    }
 };
 
 //Event Listeners
@@ -334,6 +408,7 @@ for (let counter of counters) {
 }
 
 surrenderEl.addEventListener("click", () => {
+    isPlaying = false;
     surrenderAndRestart();
     if (isPlayer2Turn) {
         togglePlayer();
@@ -351,6 +426,8 @@ startScreenForm.addEventListener("submit", (event) => {
     collectFormData(event);
     updateNamesAndTimer();
     startScreen.classList.add("hidden");
+    isPlaying = true;
+    startTimer();
 });
 
 multiplayerInput.addEventListener("input", () => {
@@ -359,4 +436,20 @@ multiplayerInput.addEventListener("input", () => {
 
 singlePlayerInput.addEventListener("input", () => {
     player2NameContainer.classList.add("hidden");
+});
+
+playAgainButton.addEventListener("click", () => {
+    playAgain();
+});
+
+timerEl.addEventListener("click", () => {
+    isPaused ? (isPaused = false) : (isPaused = true);
+    pauseScreen.classList.remove("hidden");
+});
+
+resumeButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    pauseScreen.classList.add("hidden");
+    startTimer();
+    console.log("click");
 });
