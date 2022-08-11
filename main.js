@@ -56,7 +56,7 @@ const endScreenIcon = document.getElementById("end-screen-icon");
 
 // Functions
 
-const surrenderAndRestart = () => {
+const resetBoard = () => {
     for (let counter of counters) {
         counter.classList.remove(
             "player1-selected",
@@ -179,7 +179,7 @@ const checkVerticalWin = (counter, playerSelectedCounters) => {
             //         isPlayer1Turn ? player1Name : player2Name
             //     } wins! Vertical win`
             // );
-            return showWinner();
+            return endGame();
         }
     }
 };
@@ -202,7 +202,7 @@ const checkHorizontalWin = (counter, playerSelectedCounters) => {
             //         isPlayer1Turn ? player1Name : player2Name
             //     } wins! Horizontal win`
             // );
-            return showWinner();
+            return endGame();
         }
     }
 };
@@ -256,7 +256,7 @@ const check45DegreeWin = (counter, playerSelectedCounters) => {
                     //         isPlayer1Turn ? player1Name : player2Name
                     //     } wins! 45 degree win`
                     // );
-                    return showWinner();
+                    return endGame();
                 }
             } else {
             }
@@ -305,7 +305,7 @@ const check135DegreeWin = (counter, playerSelectedCounters) => {
                     //         isPlayer1Turn ? player1Name : player2Name
                     //     } wins! 135 degree win`
                     // );
-                    return showWinner();
+                    return endGame();
                 }
             }
         }
@@ -357,7 +357,7 @@ const updateNamesAndTimer = () => {
     currentPlayerNameEl.innerHTML = player1Name;
 };
 
-const showWinner = () => {
+const endGame = () => {
     isPlaying = false;
     if (timeInSeconds) {
         winner.innerHTML = `${isPlayer1Turn ? player1Name : player2Name} wins!`;
@@ -370,7 +370,7 @@ const showWinner = () => {
 
 const playAgain = () => {
     endScreen.classList.add("hidden");
-    surrenderAndRestart();
+    resetBoard();
     if (isPlayer2Turn) togglePlayer();
     startScreen.classList.remove("hidden");
 };
@@ -389,10 +389,12 @@ const updateTimer = (end) => {
     if (isPaused) clearInterval(intervalTimer);
     if (millisecondsLeft >= 0 && isPlaying) {
         controlsTimeLeft.innerHTML = timeInSeconds;
+    } else if (millisecondsLeft >= 0 && !isPlaying) {
+        clearInterval(intervalTimer);
     } else {
         controlsTimeLeft.innerHTML = "0";
         clearInterval(intervalTimer);
-        showWinner();
+        endGame();
     }
 };
 
@@ -409,7 +411,7 @@ for (let counter of counters) {
 
 surrenderEl.addEventListener("click", () => {
     isPlaying = false;
-    surrenderAndRestart();
+    resetBoard();
     if (isPlayer2Turn) {
         togglePlayer();
     }
