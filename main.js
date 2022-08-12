@@ -15,6 +15,13 @@ let endTime;
 let intervalTimer;
 let isPlaying = false;
 let isPaused = false;
+let counterSound1 = new Audio(
+    "/sounds/game_connect_4_playing_disc_place_in_frame_1.mp3"
+);
+const counterSound2 = new Audio(
+    "/sounds/game_connect_4_playing_disc_place_in_frame_2.mp3"
+);
+let isMuted = false;
 
 // DOM Elements
 
@@ -53,6 +60,7 @@ const playAgainButton = document.getElementById("play-again");
 const pauseScreen = document.getElementById("pause-screen");
 const resumeButton = document.getElementById("resume-button");
 const endScreenIcon = document.getElementById("end-screen-icon");
+const muteButton = document.getElementById("mute");
 
 // Functions
 
@@ -153,8 +161,10 @@ const fillFromBottom = (counter) => {
 
 const fillCounter = (counter) => {
     if (isPlayer1Turn) {
+        if (!isMuted) counterSound1.play();
         counter.classList.add("player1-selected", "selected");
     } else if (isPlayer2Turn) {
+        if (!isMuted) counterSound2.play();
         counter.classList.add("player2-selected", "selected");
     }
     checkWinConditions(counter);
@@ -328,7 +338,14 @@ const checkWinConditions = (counter) => {
 };
 
 const randomCounter = () => {
-    return counters[Math.floor(Math.random() * counters.length)];
+    const counter = counters[Math.floor(Math.random() * counters.length)];
+    if (
+        counter.classList.contains("player1-selected") ||
+        counter.classList.contains("player2-selected")
+    ) {
+        return randomCounter();
+    }
+    return counter;
 };
 
 const computerTurn = () => {
@@ -398,6 +415,16 @@ const updateTimer = (end) => {
     }
 };
 
+const toggleMute = () => {
+    if (isMuted) {
+        isMuted = false;
+        muteButton.innerHTML = "🔊";
+    } else {
+        isMuted = true;
+        muteButton.innerHTML = "🔈";
+    }
+};
+
 //Event Listeners
 
 for (let counter of counters) {
@@ -405,6 +432,7 @@ for (let counter of counters) {
         if (isVersusCPU && isPlayer2Turn) {
             return;
         }
+
         fillFromBottom(counter);
     });
 }
@@ -454,4 +482,8 @@ resumeButton.addEventListener("click", (event) => {
     pauseScreen.classList.add("hidden");
     startTimer();
     console.log("click");
+});
+
+muteButton.addEventListener("click", () => {
+    toggleMute();
 });
