@@ -53,6 +53,10 @@ header {
     color: white;
 }
 
+.nav__li:hover {
+    cursor: pointer;
+}
+
 main {
     height: 93%;
     display: flex;

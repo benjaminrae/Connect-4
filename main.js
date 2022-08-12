@@ -10,7 +10,6 @@ const columnRegExp = /column(\d)/;
 const rowRegExp = /row(\d)/;
 const numberOfRows = 6;
 const numberOfColumns = 7;
-let timer;
 let endTime;
 let intervalTimer;
 let isPlaying = false;
