@@ -287,6 +287,18 @@ datalist {
     line-height: 1.4;
 }
 
+.high-score-screen__close {
+    position: absolute;
+    top: 30%;
+    right: 28%;
+}
+
+.high-score-screen__close:hover {
+    cursor: pointer;
+    font-size: larger;
+    transition: 20ms;
+}
+
 .hidden {
     display: none;
 }

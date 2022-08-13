@@ -64,8 +64,11 @@ const muteButton = document.getElementById("mute");
 const navHowItWorks = document.getElementById("help");
 const navHighScores = document.getElementById("high-scores");
 const howItWorksScreen = document.getElementById("help-screen");
-const highScoresScreen = document.getElementById("high-scores-screen");
+const highScoreScreen = document.getElementById("high-score-screen");
 const helpScreenClose = document.getElementById("help-screen__close");
+const highScoreScreenClose = document.getElementById(
+    "high-score-screen__close"
+);
 
 // Classes
 
@@ -502,4 +505,12 @@ navHowItWorks.addEventListener("click", () => {
 
 helpScreenClose.addEventListener("click", () => {
     howItWorksScreen.classList.add("hidden");
+});
+
+navHighScores.addEventListener("click", () => {
+    highScoreScreen.classList.remove("hidden");
+});
+
+highScoreScreenClose.addEventListener("click", () => {
+    highScoreScreen.classList.add("hidden");
 });
