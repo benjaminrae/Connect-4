@@ -258,6 +258,35 @@ datalist {
     font-size: 5rem;
 }
 
+.help-screen {
+    z-index: 50;
+}
+
+.help-screen__container {
+    width: 70%;
+}
+
+.help-screen__close {
+    position: absolute;
+    top: 30%;
+    right: 19%;
+}
+
+.help-screen__close:hover {
+    cursor: pointer;
+    font-size: larger;
+    transition: 20ms;
+}
+
+.help-screen__information {
+    width: 80%;
+}
+
+.help-screen__list {
+    list-style: roman;
+    line-height: 1.4;
+}
+
 .hidden {
     display: none;
 }

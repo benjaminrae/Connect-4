@@ -62,7 +62,10 @@ const resumeButton = document.getElementById("resume-button");
 const endScreenIcon = document.getElementById("end-screen-icon");
 const muteButton = document.getElementById("mute");
 const navHowItWorks = document.getElementById("help");
-const navHighScores = docuement.getElementById("high-scores");
+const navHighScores = document.getElementById("high-scores");
+const howItWorksScreen = document.getElementById("help-screen");
+const highScoresScreen = document.getElementById("high-scores-screen");
+const helpScreenClose = document.getElementById("help-screen__close");
 
 // Classes
 
@@ -211,11 +214,6 @@ const checkVerticalWin = (counter, playerSelectedCounters) => {
             rows.push(+rowRegExp.exec(counterInColumn.classList.value)[1]);
         });
         if (countConsecutiveNumbers(rows)) {
-            // alert(
-            //     `${
-            //         isPlayer1Turn ? player1Name : player2Name
-            //     } wins! Vertical win`
-            // );
             return endGame();
         }
     }
@@ -234,11 +232,6 @@ const checkHorizontalWin = (counter, playerSelectedCounters) => {
             columns.push(+columnRegExp.exec(counterInRow.classList.value)[1]);
         });
         if (countConsecutiveNumbers(columns)) {
-            // alert(
-            //     `${
-            //         isPlayer1Turn ? player1Name : player2Name
-            //     } wins! Horizontal win`
-            // );
             return endGame();
         }
     }
@@ -278,7 +271,6 @@ const check45DegreeWin = (counter, playerSelectedCounters) => {
     }
     let count = 0;
     let isMatched = false;
-    console.log(playerSelectedCounters);
     for (let i = 0; i < startRow; i++) {
         for (let playerCounter of playerSelectedCounters) {
             if (
@@ -288,11 +280,6 @@ const check45DegreeWin = (counter, playerSelectedCounters) => {
                 count++;
                 isMatched = true;
                 if (count === 4) {
-                    // alert(
-                    //     `${
-                    //         isPlayer1Turn ? player1Name : player2Name
-                    //     } wins! 45 degree win`
-                    // );
                     return endGame();
                 }
             } else {
@@ -337,11 +324,6 @@ const check135DegreeWin = (counter, playerSelectedCounters) => {
                 isMatched = true;
                 matchedArray.push(playerCounter);
                 if (count === 4) {
-                    // alert(
-                    //     `${
-                    //         isPlayer1Turn ? player1Name : player2Name
-                    //     } wins! 135 degree win`
-                    // );
                     return endGame();
                 }
             }
@@ -508,9 +490,16 @@ resumeButton.addEventListener("click", (event) => {
     event.preventDefault();
     pauseScreen.classList.add("hidden");
     startTimer();
-    console.log("click");
 });
 
 muteButton.addEventListener("click", () => {
     toggleMute();
+});
+
+navHowItWorks.addEventListener("click", () => {
+    howItWorksScreen.classList.remove("hidden");
+});
+
+helpScreenClose.addEventListener("click", () => {
+    howItWorksScreen.classList.add("hidden");
 });
