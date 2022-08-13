@@ -11,7 +11,8 @@
     --green: #8ac926;
     --blue: #1982c4;
     --purple: #6a4c93;
-    font-family: "Rubik Dirt", cursive;
+    /* font-family: "Rubik Dirt", cursive; */
+    font-family: "DynaPuff", cursive;
 }
 
 body {
@@ -25,6 +26,7 @@ header {
     width: 100%;
     z-index: 30;
 }
+
 .nav {
     display: flex;
     justify-content: space-between;
@@ -309,6 +311,23 @@ th,
 td {
     padding: 0.5rem;
     border: 1px solid black;
+}
+
+.button {
+    background-color: var(--green);
+    padding: 1rem;
+    color: black;
+    border-radius: 0.5rem;
+    border: 3px solid transparent;
+    font-weight: bolder;
+    font-family: inherit;
+    font-size: larger;
+}
+
+.button:hover {
+    background-color: white;
+    border: 3px solid var(--green);
+    cursor: pointer;
 }
 
 .hidden {

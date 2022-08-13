@@ -23,6 +23,15 @@ const counterSound2 = new Audio(
 let isMuted = false;
 let moves = 0;
 const highScores = [];
+const gameOverSound = new Audio(
+    "/sounds/zapsplat_human_male_voice_says_game_over_004_15729.mp3"
+);
+const youWinSound = new Audio(
+    "/sounds/zapsplat_multimedia_male_voice_processed_says_you_win_001_21572.mp3"
+);
+const youLoseSound = new Audio(
+    "sounds/zapsplat_multimedia_male_voice_processed_says_you_lose_21571.mp3"
+);
 
 // DOM Elements
 
@@ -391,11 +400,19 @@ const updateNamesAndTimer = () => {
 const endGame = () => {
     isPlaying = false;
     if (timeInSeconds) {
+        if (!isMuted && !isVersusCPU) {
+            youWinSound.play();
+        } else if (!isMuted && isVersusCPU && isPlayer2Turn) {
+            youLoseSound.play();
+        } else if (!isMuted && isVersusCPU && isPlayer1Turn) {
+            youWinSound.play();
+        }
         updateHighScores();
         winner.innerHTML = `${
             isPlayer1Turn ? player1Name : player2Name
         } wins in ${moves} turns!`;
     } else {
+        if (!isMuted) gameOverSound.play();
         endScreenIcon.innerHTML = "⏰";
         winner.innerHTML = "Time's up! Nobody wins!";
     }
