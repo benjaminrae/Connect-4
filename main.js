@@ -22,6 +22,7 @@ const counterSound2 = new Audio(
 );
 let isMuted = false;
 let moves = 0;
+const highScores = [];
 
 // DOM Elements
 
@@ -69,6 +70,9 @@ const helpScreenClose = document.getElementById("help-screen__close");
 const highScoreScreenClose = document.getElementById(
     "high-score-screen__close"
 );
+const highScoreInformation = document.getElementsByClassName(
+    "high-score-screen__information"
+)[0];
 
 // Classes
 
@@ -77,14 +81,12 @@ class HighScore {
         this._winnerName = winnerName;
         this._loserName = loserName;
         this._moves = moves;
-        this._timeInSeconds = timeInSeconds;
-        this._passedAnswers = passedAnswers;
     }
     get winnerName() {
         return this._winnerName;
     }
     get loserName() {
-        return this._winnerName;
+        return this._loserName;
     }
     get moves() {
         return this._moves;
@@ -389,7 +391,10 @@ const updateNamesAndTimer = () => {
 const endGame = () => {
     isPlaying = false;
     if (timeInSeconds) {
-        winner.innerHTML = `${isPlayer1Turn ? player1Name : player2Name} wins!`;
+        updateHighScores();
+        winner.innerHTML = `${
+            isPlayer1Turn ? player1Name : player2Name
+        } wins in ${moves} turns!`;
     } else {
         endScreenIcon.innerHTML = "⏰";
         winner.innerHTML = "Time's up! Nobody wins!";
@@ -435,6 +440,42 @@ const toggleMute = () => {
         isMuted = true;
         muteButton.innerHTML = "🔈";
     }
+};
+
+const updateHighScores = () => {
+    const winnerName = isPlayer1Turn ? player1Name : player2Name;
+    const loserName = isPlayer1Turn ? player2Name : player1Name;
+    const highScore = new HighScore(winnerName, loserName, moves);
+    highScores.push(highScore);
+};
+
+const sortHighScores = () => {
+    return highScores.sort(
+        (highScore1, highScore2) => highScore1.moves - highScore2.moves
+    );
+};
+
+const createHighScoreTable = () => {
+    const sortedHighScores = sortHighScores();
+    const tableHeader = `
+    <tr>
+        <th colspan="3">High Scores</th>
+    </tr>
+    <tr>
+        <th>Winner</th>
+        <th>Loser</th>
+        <th>Moves</th>
+    </tr>`;
+    let tableRows = "";
+    sortedHighScores.forEach((highScore) => {
+        tableRows += `<tr> 
+            <td>${highScore.winnerName}</td> 
+            <td>${highScore.loserName}</td> 
+            <td>${highScore.moves}</td> 
+        </tr>`;
+        const fullTable = `<table class="high-score-screen__table">${tableHeader}${tableRows}</table>`;
+        highScoreInformation.innerHTML = fullTable;
+    });
 };
 
 //Event Listeners
@@ -508,6 +549,11 @@ helpScreenClose.addEventListener("click", () => {
 });
 
 navHighScores.addEventListener("click", () => {
+    if (highScores.length === 0) {
+        highScoreInformation.innerHTML = "No high scores to display yet 😢";
+    } else {
+        createHighScoreTable();
+    }
     highScoreScreen.classList.remove("hidden");
 });
 

@@ -299,6 +299,18 @@ datalist {
     transition: 20ms;
 }
 
+.high-score-screen__table {
+    border: 1px solid black;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 0.5rem;
+    border: 1px solid black;
+}
+
 .hidden {
     display: none;
 }
