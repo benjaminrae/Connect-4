@@ -13,6 +13,7 @@
     --purple: #6a4c93;
     font-family: "Rubik Dirt", cursive;
 }
+
 body {
     height: 100vh;
     width: 100vw;
@@ -116,15 +117,14 @@ main {
 }
 
 .game__grid {
-    width: 100%;
     height: 100%;
     background-color: var(--blue);
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     grid-template-rows: repeat(6, 1fr);
-    grid-gap: 1rem;
+    grid-gap: 2vmin;
     place-items: center;
-    padding: 2rem;
+    padding: 4vmin;
     filter: drop-shadow(16px 16px 10px black);
     border-radius: 2rem;
 }
@@ -150,7 +150,7 @@ main {
 }
 
 .controls-container {
-    flex-grow: 2;
+    flex-grow: 1;
     background-color: var(--green);
     display: flex;
     justify-content: center;

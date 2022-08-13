@@ -21,6 +21,7 @@ const counterSound2 = new Audio(
     "/sounds/game_connect_4_playing_disc_place_in_frame_2.mp3"
 );
 let isMuted = false;
+let moves = 0;
 
 // DOM Elements
 
@@ -60,6 +61,32 @@ const pauseScreen = document.getElementById("pause-screen");
 const resumeButton = document.getElementById("resume-button");
 const endScreenIcon = document.getElementById("end-screen-icon");
 const muteButton = document.getElementById("mute");
+const navHowItWorks = document.getElementById("help");
+const navHighScores = docuement.getElementById("high-scores");
+
+// Classes
+
+class HighScore {
+    constructor(winnerName, loserName, moves) {
+        this._winnerName = winnerName;
+        this._loserName = loserName;
+        this._moves = moves;
+        this._timeInSeconds = timeInSeconds;
+        this._passedAnswers = passedAnswers;
+    }
+    get winnerName() {
+        return this._winnerName;
+    }
+    get loserName() {
+        return this._winnerName;
+    }
+    get moves() {
+        return this._moves;
+    }
+    get timeInSeconds() {
+        return this._timeInSeconds;
+    }
+}
 
 // Functions
 
@@ -162,6 +189,7 @@ const fillCounter = (counter) => {
     if (isPlayer1Turn) {
         if (!isMuted) counterSound1.play();
         counter.classList.add("player1-selected", "selected");
+        moves++;
     } else if (isPlayer2Turn) {
         if (!isMuted) counterSound2.play();
         counter.classList.add("player2-selected", "selected");
@@ -451,9 +479,9 @@ timeLimitRange.addEventListener("input", (event) => {
 
 startScreenForm.addEventListener("submit", (event) => {
     event.preventDefault();
-    console.log(event);
     collectFormData(event);
     updateNamesAndTimer();
+    moves = 0;
     startScreen.classList.add("hidden");
     isPlaying = true;
     startTimer();
