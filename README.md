@@ -2,7 +2,7 @@
 
 [Live Site](https://aquamarine-ganache-1b7af4.netlify.app/)
 
-![Portfolio Screenshot](resources/connect4-screenshot.png)
+![Connect 4 Screenshot](resources/connect4-screenshot.png)
 
 ## About the project
 
