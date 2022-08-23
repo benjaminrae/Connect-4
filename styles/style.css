@@ -112,7 +112,7 @@ main {
 
 .game-container {
     height: 90%;
-    flex-grow: 1.5;
+    flex-grow: 2;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -138,7 +138,18 @@ main {
     border-radius: 50%;
     background-color: white;
     box-shadow: inset -1px -2px 2px 2px black;
+    /* animation: counterFall 1s ease-in-out;
+    animation-delay: 10ms; */
 }
+
+/* @keyframes counterFall {
+    0% {
+        transform: translateY(-600px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+} */
 
 .example-counter {
     width: 8vmin;
@@ -159,7 +170,6 @@ main {
     /* justify-content: center; */
     align-items: center;
     height: 100%;
-    width: 100%;
 }
 
 .controls {
