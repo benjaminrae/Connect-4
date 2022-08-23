@@ -266,7 +266,7 @@ datalist {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 2rem;
+    gap: 8vmin;
 }
 
 #pause-icon,
@@ -283,8 +283,8 @@ datalist {
 }
 
 .help-screen__close {
-    position: absolute;
-    top: 30%;
+    position: fixed;
+    top: 20%;
     right: 19%;
 }
 
@@ -304,9 +304,9 @@ datalist {
 }
 
 .high-score-screen__close {
-    position: absolute;
-    top: 30%;
-    right: 28%;
+    position: fixed;
+    top: 20%;
+    right: 19%;
 }
 
 .high-score-screen__close:hover {
