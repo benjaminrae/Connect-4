@@ -155,9 +155,11 @@ main {
     flex-grow: 1;
     background-color: var(--green);
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    /* justify-content: center; */
     align-items: center;
-    height: 90%;
+    height: 100%;
+    width: 100%;
 }
 
 .controls {
@@ -166,14 +168,15 @@ main {
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
+    gap: 1rem;
 }
 
 #surrender-button {
-    font-size: 3rem;
+    font-size: 6vmin;
 }
 
 #pause-button {
-    font-size: 3rem;
+    font-size: 6vmin;
 }
 
 .controls__card {
@@ -181,9 +184,9 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 10rem;
-    width: 10rem;
-    border-radius: 2rem;
+    height: 20vmin;
+    width: 20vmin;
+    border-radius: 4vmin;
     filter: drop-shadow(16px 16px 10px black);
     flex-direction: column;
     gap: 1rem;
@@ -233,19 +236,20 @@ datalist {
 
 .overlay {
     position: fixed;
-    height: 90%;
+    height: 100vh;
     width: 100vw;
     background-color: rgba(0, 0, 0, 0.6);
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    /* justify-content: center; */
+    padding-top: 2rem;
     align-items: center;
     z-index: 25;
 }
 
 .overlay__container {
-    height: 50%;
-    width: 50%;
+    height: 70%;
+    width: 70%;
     background-color: white;
     border-radius: 2rem;
     display: flex;
