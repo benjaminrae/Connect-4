@@ -1,4 +1,4 @@
-# Personal Portfolio
+# Connect 4
 
 [Live Site](https://aquamarine-ganache-1b7af4.netlify.app/)
 
