@@ -213,22 +213,10 @@ main {
 .counter {
     width: 8vmin;
     height: 8vmin;
-
     border-radius: 50%;
     background-color: white;
     box-shadow: inset -1px -2px 2px 2px black;
-    /* animation: counterFall 1s ease-in-out;
-    animation-delay: 10ms; */
 }
-
-/* @keyframes counterFall {
-    0% {
-        transform: translateY(-600px);
-    }
-    100% {
-        transform: translateY(0px);
-    }
-} */
 
 .example-counter {
     width: 8vmin;
