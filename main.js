@@ -82,6 +82,8 @@ const highScoreScreenClose = document.getElementById(
 const highScoreInformation = document.getElementsByClassName(
     "high-score-screen__information"
 )[0];
+const nav = document.getElementById("nav__ul");
+const hamburger = document.getElementById("hamburger");
 
 // Classes
 
@@ -576,4 +578,9 @@ navHighScores.addEventListener("click", () => {
 
 highScoreScreenClose.addEventListener("click", () => {
     highScoreScreen.classList.add("hidden");
+});
+
+hamburger.addEventListener("click", () => {
+    nav.classList.toggle("active");
+    hamburger.classList.toggle("active");
 });

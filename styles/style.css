@@ -43,23 +43,102 @@ header {
 
 .nav__logo {
     max-height: 3rem;
+    animation: slideFromLeft 1s ease-in-out;
 }
 
 .nav__ul {
     list-style: none;
     display: flex;
     gap: 2rem;
+    align-items: center;
+    animation: slideFromRight 1s ease-in-out;
 }
 
 .nav__li {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     color: white;
+}
+
+.nav__li:last-child {
+    font-size: 1.5rem;
 }
 
 .nav__li:hover {
     cursor: pointer;
+    text-decoration: underline;
 }
 
+.nav__li:last-child:hover {
+    text-decoration: none;
+    filter: drop-shadow(0px 0px 4px white);
+}
+
+@media only screen and (max-width: 435px) {
+    .nav__ul {
+        display: none;
+    }
+    .nav__ul.active {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #hamburger.active {
+        animation: rotate 1s ease-in-out alternate;
+        animation-delay: 10ms;
+
+        transform: rotate(90deg);
+    }
+}
+@media only screen and (min-width: 435px) {
+    #hamburger {
+        display: none;
+    }
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    85% {
+        transform: rotate(100deg);
+    }
+    95% {
+        transform: rotate(85deg);
+    }
+    100% {
+        transform: rotate(90deg);
+    }
+}
+
+@keyframes slideFromRight {
+    0% {
+        transform: translateX(300px);
+    }
+    85% {
+        transform: translateX(-50px);
+    }
+    95% {
+        transform: translateXtranslateX(50px);
+    }
+    100% {
+        transform: translateX(0px);
+    }
+}
+
+@keyframes slideFromLeft {
+    0% {
+        transform: translateX(-100px);
+    }
+    85% {
+        transform: translateX(50px);
+    }
+    95% {
+        transform: translateXtranslateX(-50px);
+    }
+    100% {
+        transform: translateX(0px);
+    }
+}
 main {
     height: 93%;
     display: flex;
@@ -92,7 +171,7 @@ main {
 .start-screen__form {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 3vmin;
 }
 
 .start-screen__player-selection {
