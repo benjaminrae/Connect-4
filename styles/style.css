@@ -417,9 +417,12 @@ td {
 @media only screen and (max-width: 600px) {
     main {
         flex-direction: column;
+        position: fixed;
+        width: 100%;
+        bottom: 0;
     }
     .game-container {
-        flex-basis: 60%;
+        flex-basis: 70%;
     }
     .controls-container {
         flex-basis: 30%;
