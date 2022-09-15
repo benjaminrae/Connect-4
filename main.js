@@ -22,6 +22,7 @@ const counterSound2 = new Audio(
 );
 let isMuted = false;
 let moves = 0;
+const columns = 7;
 const highScores = [];
 const gameOverSound = new Audio(
     "/sounds/zapsplat_human_male_voice_says_game_over_004_15729.mp3"
@@ -143,7 +144,10 @@ const togglePlayer = () => {
 };
 
 const fillFromBottom = (counter) => {
-    const columnToFill = columnRegExp.exec(counter.classList.value)[1];
+    if (!counter) {
+    } else {
+        columnToFill = columnRegExp.exec(counter.classList.value)[1];
+    }
     switch (columnToFill) {
         case "1":
             for (let i = column1Counters.length - 1; i >= 0; i--) {
@@ -436,7 +440,7 @@ const startTimer = () => {
     updateTimer(endTime);
 };
 
-const updateTimer = (end) => {
+const updateTimer = () => {
     const millisecondsLeft = endTime - Date.now();
     timeInSeconds = Math.round(millisecondsLeft / 1000);
     if (isPaused) clearInterval(intervalTimer);
