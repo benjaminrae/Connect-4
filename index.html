@@ -113,22 +113,24 @@
                         />
                     </div>
 
-                    <label
-                        for="start-screen__time-limit"
-                        class="start-screen__label"
-                        >Time limit:
-                        <span id="display-time-limit">150s</span></label
-                    >
-                    <input
-                        type="range"
-                        name="time-limit"
-                        id="start-screen__time-limit"
-                        class="start-screen__text-input"
-                        min="60"
-                        max="300"
-                        step="15"
-                        value="150"
-                    />
+                    <div class="start-screen__time-limit-group">
+                        <label
+                            for="start-screen__time-limit"
+                            class="start-screen__label"
+                            >Time limit:
+                            <span id="display-time-limit">150s</span></label
+                        >
+                        <input
+                            type="range"
+                            name="start-screen__time-limit"
+                            id="start-screen__time-limit"
+                            class="start-screen__text-input"
+                            min="60"
+                            max="300"
+                            step="15"
+                            value="150"
+                        />
+                    </div>
                     <input class="button" type="submit" value="Start Game" />
                 </form>
             </div>

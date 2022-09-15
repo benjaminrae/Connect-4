@@ -143,39 +143,19 @@ main {
     height: 93%;
     display: flex;
     flex-direction: row;
+    gap: 1rem;
 }
-
-/* .start-screen {
-    position: fixed;
-    height: 90%;
-    width: 100vw;
-    background-color: rgba(0, 0, 0, 0.6);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 25;
-}
-
-.start-screen__container {
-    height: 50%;
-    width: 50%;
-    background-color: white;
-    border-radius: 2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-} */
 
 .start-screen__form {
     display: flex;
     flex-direction: column;
-    gap: 3vmin;
+    gap: 6vmin;
+    padding: 2rem;
 }
 
 .start-screen__player-selection {
     height: 2rem;
+    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -187,6 +167,24 @@ main {
     -webkit-appearance: none;
     appearance: none;
     cursor: pointer;
+    text-align: center;
+}
+
+.start-screen__form-text {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.start-screen__text-input {
+    padding: 0.5rem;
+}
+
+.start-screen__time-limit-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
 .game-container {
@@ -414,4 +412,21 @@ td {
 
 .hidden {
     display: none;
+}
+
+@media only screen and (max-width: 600px) {
+    main {
+        flex-direction: column;
+    }
+    .game-container {
+        flex-basis: 60%;
+    }
+    .controls-container {
+        flex-basis: 30%;
+    }
+    .controls {
+        flex-direction: row;
+        align-items: flex-start;
+        padding: 2rem;
+    }
 }
