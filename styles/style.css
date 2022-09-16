@@ -22,7 +22,8 @@ body {
 }
 
 header {
-    position: relative;
+    position: fixed;
+    top: 0;
     width: 100%;
     z-index: 30;
 }
@@ -140,7 +141,9 @@ header {
     }
 }
 main {
-    height: 93%;
+    margin-top: 3rem;
+    height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: row;
     gap: 1rem;
@@ -284,9 +287,25 @@ footer {
     z-index: 30;
     color: white;
 }
+@keyframes counterDrop {
+    0% {
+        transform: translateY(-100vh);
+    }
+    80% {
+        transform: translateY(0px);
+    }
+    90% {
+        transform: translateY(-30px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
 
-.player1-selected {
+.player1-selected,
+.player2-selected {
     background-color: var(--red);
+    animation: counterDrop 0.2s ease-in-out;
 }
 
 .player2-selected {
@@ -310,14 +329,14 @@ datalist {
 }
 
 .overlay {
-    position: fixed;
+    position: absolute;
     height: 100vh;
     width: 100vw;
     background-color: rgba(0, 0, 0, 0.6);
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
-    padding-top: 2rem;
+    justify-content: center;
+    /* padding-top: 2rem; */
     align-items: center;
     z-index: 25;
 }
